@@ -3,7 +3,8 @@
 
 - Automatic discovery of jails
 - Monitor service status
-- Monitor jails
+- Monitor jails current
+- Monitor jails total
 - Jails graph
 
 ## Installation
