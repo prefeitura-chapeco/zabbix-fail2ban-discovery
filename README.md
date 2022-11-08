@@ -1,4 +1,4 @@
-# Fail2Ban template for Zabbix
+# Fail2Ban template for Zabbix 6.0.x
 ### Features:
 
 - Automatic discovery of jails
