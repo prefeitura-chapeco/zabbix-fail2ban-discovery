@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.0</version>
+    <date>2022-11-08T18:59:05Z</date>
+    <groups>
+        <group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates/Fail2ban</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <uuid>48d19098672f4e7aa7dab1942260d87d</uuid>
+            <template>Fail2ban</template>
+            <name>Fail2ban</name>
+            <description>## Overview
+
+Fail2Ban template for Zabbix
+============================
+
+
+**Features:**
+
+
+Automatic discovery of jails
+
+
+Monitor service status
+
+
+Monitor jails
+
+
+Jails graph
+
+
+ 
+
+
+**The installation instruction is in this repository.** [github.com/hermanekt/zabbix-fail2ban-discovery-](cat-app/firewall/fail2ban/visit)
+
+
+
+## Author
+
+Tomas Hermanek</description>
+            <groups>
+                <group>
+                    <name>Templates/Fail2ban</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>de416c540fd0435db1822e38c036f0d7</uuid>
+                    <name>Fail2Ban service is running</name>
+                    <key>proc.num[fail2ban-server]</key>
+                    <description>ping - tests if the server is alive</description>
+                    <valuemap>
+                        <name>Service state</name>
+                    </valuemap>
+                    <tags>
+                        <tag>
+                            <tag>application</tag>
+                            <value>Fail2ban</value>
+                        </tag>
+                        <tag>
+                            <tag>component</tag>
+                            <value>application</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>ffa07343b51d4bf58c2b8c324c6a7a62</uuid>
+                            <expression>last(/Fail2ban/proc.num[fail2ban-server])=0</expression>
+                            <name>Fail2ban Service is Down</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>ccbd8ba7a96d47b8953af017e3b0f803</uuid>
+                    <name>Fail2ban discovery</name>
+                    <key>fail2ban.discovery</key>
+                    <description>Discovery of jails from fail2ban daemon.</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>aae3ba9ed5684e52a6371df2266295c4</uuid>
+                            <name>Fail2ban {#JAIL} Banned IPs</name>
+                            <key>fail2ban.bannedips[{#JAIL}]</key>
+                            <delay>5m</delay>
+                            <history>365d</history>
+                            <trends>0</trends>
+                            <value_type>LOG</value_type>
+                            <tags>
+                                <tag>
+                                    <tag>application</tag>
+                                    <value>Fail2ban</value>
+                                </tag>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>application</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>cd4167bec93f4d75818d085552fb9240</uuid>
+                            <name>Fail2ban {#JAIL} Total banned</name>
+                            <key>fail2ban.statustotal[{#JAIL}]</key>
+                            <history>30d</history>
+                            <trends>120d</trends>
+                            <units>counts</units>
+                            <tags>
+                                <tag>
+                                    <tag>application</tag>
+                                    <value>Fail2ban</value>
+                                </tag>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>application</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>8cc0b05211fc4278b2feb46727a4ca97</uuid>
+                            <name>Fail2ban {#JAIL} Currently banned</name>
+                            <key>fail2ban.status[{#JAIL}]</key>
+                            <units>count</units>
+                            <tags>
+                                <tag>
+                                    <tag>application</tag>
+                                    <value>Fail2ban</value>
+                                </tag>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>application</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>f06e587559f34fd482a7264ba19b9059</uuid>
+                                    <expression>last(/Fail2ban/fail2ban.status[{#JAIL}])&gt;0</expression>
+                                    <name>Fail2ban Currently Banned for {#JAIL}</name>
+                                    <priority>HIGH</priority>
+                                    <manual_close>YES</manual_close>
+                                    <tags>
+                                        <tag>
+                                            <tag>application</tag>
+                                            <value>Fail2ban</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <uuid>b151e34af81548b1b92cf0a6b36cdee7</uuid>
+                            <name>Count of banned IPs on jail {#JAIL}</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>00C800</color>
+                                    <item>
+                                        <host>Fail2ban</host>
+                                        <key>fail2ban.status[{#JAIL}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>application</tag>
+                    <value>Fail2ban</value>
+                </tag>
+                <tag>
+                    <tag>component</tag>
+                    <value>application</value>
+                </tag>
+            </tags>
+            <valuemaps>
+                <valuemap>
+                    <uuid>249132609d114d21bf84a38a3c559bfd</uuid>
+                    <name>Service state</name>
+                    <mappings>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>Down</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>Up</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+</zabbix_export>
